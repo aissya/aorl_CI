@@ -21,6 +21,20 @@
                                         placeholder="Email Address" value="<?= set_value ('email'); ?>">
                                         <?php echo form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
+
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="address" name="address"
+                                        placeholder="Address" value="<?= set_value ('address'); ?>">
+                                        <?php echo form_error('address', '<small class="text-danger pl-3">', '</small>'); ?>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="npk" name="npk"
+                                        placeholder="NPK" value="<?= set_value ('npk'); ?>">
+                                        <?php echo form_error('npk', '<small class="text-danger pl-3">', '</small>'); ?>
+                                </div>
+
+
                                 <div class="form-group">
                                 <input type="password" class="form-control form-control-user"
                                             id="password" name="password" placeholder="Password">

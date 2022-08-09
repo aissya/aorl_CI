@@ -55,7 +55,7 @@ class Auth extends CI_Controller
 
                 }else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                    Password salah.</div>');
+                    Incorrect Password.</div>');
                     redirect('auth');
                 }
 
@@ -84,6 +84,12 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]', [
             'min_length' => 'Password too short!'
         ]);
+        $this->form_validation->set_rules('address', 'Address', 'required|trim');
+        $this->form_validation->set_rules('npk', 'NPK', 'required|trim|is_unique[user.NPK]|min_length[4]|max_length[4]', [
+            'is_unique' => 'This NPK has already registered!',
+            'min_length' => 'Incorrect NPK',
+            'max_length' => 'Incorrect NPK'
+        ]);
         
 
 
@@ -98,7 +104,9 @@ class Auth extends CI_Controller
             $data = [
                 'name' => htmlspecialchars($this->input->post('name', true)),
                 'email' => htmlspecialchars($this->input->post('email', true)),
-                'image' => 'default.jpg',
+                'npk' => htmlspecialchars($this->input->post('npk', true)),
+                'image' => 'default.png',
+                'address' => htmlspecialchars($this->input->post('address', true)),
                 'password' => password_hash($this->input->post('password'),
                 PASSWORD_DEFAULT),
                 'role_id' => 2,
