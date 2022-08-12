@@ -7,10 +7,15 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
+
     }
 
     public function index()
     {
+        if ($this->session->userdata('email')) {
+            redirect('user');
+        }     
+
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         
@@ -77,6 +82,10 @@ class Auth extends CI_Controller
 
     public function registration()
     {
+        if ($this->session->userdata('email')) {
+            redirect('user');
+        }     
+        
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
             'is_unique' => 'This Email has already registered!'
@@ -135,5 +144,23 @@ class Auth extends CI_Controller
     public function blocked()
     {
        $this->load->view('auth/blocked');
+    }
+    public function forgotPassword() {
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Forgot Password';
+            $this->load->view('templates/auth_header', $data);
+            $this->load->view('navbar/navbar');
+            $this->load->view('auth/forgot-password');
+            $this->load->view('templates/auth_footer');
+        } else {
+            $email = $this->input->post('email');
+            $user = $this->db->get_where('user', ['email'=> $email])->row_array;
+
+            if($user) { } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email is not registered!</div>');
+                redirect('auth/forgotpassword');
+            }
+        }
     }
 }
