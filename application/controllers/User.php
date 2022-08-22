@@ -118,4 +118,21 @@ class User extends CI_Controller
         }
 
     }
+
+    public function viewspkl()
+    {
+        //mengambil data dari session usrdata pada Auth berdasarkan email yang ada pada session 
+        $data['title'] = 'View SPKL';
+        $data['user'] = $this->db->get_where('user', ['email' =>
+        $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('user/viewspkl', $data);
+        $this->load->view('templates/footer');
+    }
+
+
+
 }
